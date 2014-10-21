@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TimeTable</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="pref_weeks_key">NO_WEEKS_KEY</string>
+    <string name="pref_weeks_list">No. of weeks</string>
+    <string name="pref_weeks_summary_text">Typically one or two weeks (e.g. A and B)</string>
+    <string name="weeks_list">2</string>
+
+    <string name="pref_lessons_key">NO_LESSONS_KEY</string>
+    <string name="pref_lessons_list">No. of lessons per day</string>
+    <string name="pref_lessons_summary_text">How many lessons per day (e.g. 5)</string>
+    <string name="lessons_list">5</string>
+
+    <string name="pref_weekend_key">SHOW_WEEKENDS_KEY</string>
+    <string name="pref_weekend_list">Show weekends?</string>
+    <string name="pref_weekend_summary_text">Include Saturdays and Sundays?</string>
+    <string name="weekend_list">false</string>
+
+    <string name="pref_terms_key">NO_TERMS_KEY</string>
+    <string name="pref_terms_list">No. of terms</string>
+    <string name="pref_terms_summary_text">How many terms in a school year (typically 6)? Count half terms separately</string>
+    <string name="terms_list">6</string>
+    
+    
+    <string name="editButton">Edit</string>
+    <string name="saveButton">Save</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="first_weeks_name"> A</string>
+    <string name="second_weeks_name"> B</string>
+    
+    <string name="term_date_prompt">Start of term</string>
+    <string name="term_enddate_prompt">End of term</string>
+	<string name="term_first_week">Starts on week A</string>
+	<string name="term_details">Term dates</string>
+	<string name="pick">Pick</string>
+	<string name="show_previous">Show previous term</string>
+	<string name="show_next">Show next term</string>
+	<string name="term_name_hint">Term Name</string>
+
+    <string name="pref_termyear_key">TERM_START_YEAR_KEY</string>
+    <string name="pref_termmonth_key">TERM_START_MONTH_KEY</string>
+    <string name="pref_termday_key">TERM_START_DAY_KEY</string>
+    <string name="pref_termstartweek_key">TERM_STARTA_A_KEY</string>
+    <string name="term">Term</string>
+    
+    <string name="tt_date_format">dd MMM yyyy</string>
+    		
+</resources>

@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<ListPreference
+   android:key="@string/pref_weeks_key"
+   android:title="@string/pref_weeks_list"
+   android:summary="@string/pref_weeks_summary_text"
+   android:entries="@array/week_count_titles"
+   android:entryValues="@array/week_count_values"
+   android:defaultValue="@string/weeks_list" />
+
+<ListPreference
+   android:key="@string/pref_lessons_key"
+   android:title="@string/pref_lessons_list"
+   android:summary="@string/pref_lessons_summary_text"
+   android:entries="@array/lesson_count_titles"
+   android:entryValues="@array/lesson_count_values"
+   android:defaultValue="@string/lessons_list" />
+
+<CheckBoxPreference
+   android:key="@string/pref_weekend_key"
+   android:title="@string/pref_weekend_list"
+   android:summary="@string/pref_weekend_summary_text"
+   android:defaultValue="false" />
+
+<ListPreference
+   android:key="@string/pref_terms_key"
+   android:title="@string/pref_terms_list"
+   android:summary="@string/pref_terms_summary_text"
+   android:entries="@array/term_count_titles"
+   android:entryValues="@array/term_count_values"
+   android:defaultValue="@string/terms_list" />
+
+
+</PreferenceScreen>

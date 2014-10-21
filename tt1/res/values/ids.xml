@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="headerTextId" type="id"/>
+    <item name="editButtonId" type="id"/>
+    <item name="cancelButtonId" type="id"/>
+</resources>
