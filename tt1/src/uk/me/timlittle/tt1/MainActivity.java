@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Display;
 //import android.util.Log;
 import android.view.Menu;
@@ -289,11 +290,16 @@ public class MainActivity extends Activity implements SimpleGestureListener
 	private void createWeek() {
 		int dayCounter;
 		int lessonCounter;
+		int colWidth;
 		
 		Locale usersLocale = Locale.getDefault();
 		DateFormatSymbols dfs = new DateFormatSymbols(usersLocale);
 		String weekdays[] = dfs.getShortWeekdays();
 		
+		//Use the screen size to set the width of the columns so they are even 
+		 DisplayMetrics metrics = new DisplayMetrics();
+		 getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		 colWidth = metrics.widthPixels / ((endDay - startDay) + 1);
 		
         TableRow tableRow = new TableRow(this);
         TableLayout.LayoutParams params = new TableLayout.LayoutParams(  
@@ -330,6 +336,7 @@ public class MainActivity extends Activity implements SimpleGestureListener
 			for (dayCounter = startDay; dayCounter <= endDay; dayCounter++) {
 				TextView tv = new TextView (this);
 				tv.setText(timeTable.getLesson(currentWeek, dayCounter, lessonCounter).info1);
+				tv.setWidth(colWidth);
 				if (dayCounter == currentDay)
 					tv.setBackgroundColor(Color.parseColor("#FF9933"));
 				else
@@ -339,6 +346,28 @@ public class MainActivity extends Activity implements SimpleGestureListener
 			
 			layout.addView(tableRow);
 		}
+
+		tableRow = new TableRow(this);
+		params = new TableLayout.LayoutParams(  
+                LayoutParams.MATCH_PARENT,  
+                LayoutParams.MATCH_PARENT);
+		params.setMargins(3, 3, 2, 10);
+        tableRow.setLayoutParams(params);
+		
+		//Show notes at the bottom, in italics
+		for (dayCounter = startDay; dayCounter <= endDay; dayCounter++) {
+			TextView tv = new TextView (this);
+			tv.setText(timeTable.getDayNotes(currentWeek, dayCounter));
+			tv.setWidth(colWidth);
+			tv.setTypeface(null, Typeface.ITALIC);
+			if (dayCounter == currentDay)
+				tv.setBackgroundColor(Color.parseColor("#FF9933"));
+			else
+				tv.setBackgroundColor(Color.parseColor("#CCFFFF"));
+			tableRow.addView(tv);
+		}
+		
+		layout.addView(tableRow);
 		
 	}
 	
@@ -411,7 +440,7 @@ public class MainActivity extends Activity implements SimpleGestureListener
 
 		
 		TableRow tableRow = new TableRow(this);
-        TableLayout.LayoutParams params = new TableLayout.LayoutParams(  
+        TableRow.LayoutParams params = new TableRow.LayoutParams(  
                 LayoutParams.WRAP_CONTENT,  
                 LayoutParams.WRAP_CONTENT);  
 
@@ -423,13 +452,13 @@ public class MainActivity extends Activity implements SimpleGestureListener
 		for (lessonCounter =1; lessonCounter <= lessonCount; lessonCounter++) {
 			
 			tableRow = new TableRow(this);
-			params = new TableLayout.LayoutParams(  
+			params = new TableRow.LayoutParams(  
 	                LayoutParams.WRAP_CONTENT,  
 	                LayoutParams.WRAP_CONTENT);;  
             params.setMargins(3, 3, 2, 10);
 			
 			tableRow.setLayoutParams(params);
-			tableRow.setBackgroundColor(Color.parseColor("#D6EBFF"));
+			tableRow.setBackgroundColor(Color.parseColor("#CCFFFF"));
 			tableRow.setPadding(5, 5, 5, 5);
 			
 			AutoCompleteTextView tv = new AutoCompleteTextView(this);
@@ -471,6 +500,33 @@ public class MainActivity extends Activity implements SimpleGestureListener
 	        //---adds the textview---
 	        layout.addView(tableRow);			
 		}
+		//End with notes
+		tableRow = new TableRow(this);
+		params = new TableRow.LayoutParams(  
+                LayoutParams.WRAP_CONTENT,  
+                LayoutParams.WRAP_CONTENT);
+        params.setMargins(3, 3, 2, 10);
+        params.span = 3;
+        
+		//tableRow.setLayoutParams(params);
+		
+		tableRow.setBackgroundColor(Color.parseColor("#D6EBFF"));
+		tableRow.setPadding(5, 5, 5, 5);
+		
+		
+		EditText tv = new EditText(this);
+		tv.setSingleLine(false);
+		tv.setHorizontalScrollBarEnabled(false);
+		tv.setTypeface(null, Typeface.ITALIC);
+        
+        nextId = myGenerateViewId();
+        viewId = "notes";
+        tv.setId(nextId);
+        viewMap.put(viewId, nextId);
+        
+        tableRow.addView(tv, params);
+        layout.addView(tableRow);
+		
 		
 	}
 	
@@ -509,6 +565,18 @@ private void populateDay (int currentDay, int currentWeek){
 
         tv.setText(lessonInfo.info3);
 	}
+	
+	//Notes
+	viewKey = "notes";
+	viewId = viewMap.get(viewKey);
+	EditText notesBox = (EditText)findViewById(viewId);
+	
+	String notes = timeTable.getDayNotes(currentWeek, currentDay);
+	if (notes == "")
+		notes = "Notes";
+	
+	notesBox.setText(notes);
+	
 }
 /*******************************************************************************************
  * lock or unlock the edit views	
@@ -551,6 +619,16 @@ private void releaseDay (boolean allowEdit){
         tv.setTextColor(Color.BLACK);
         
 	}
+	//Notes field
+	viewKey = "notes";
+	viewId = viewMap.get(viewKey);
+	EditText notesBox = (EditText)findViewById(viewId);
+	
+	notesBox.setEnabled(allowEdit);
+	notesBox.setFocusable(allowEdit);
+	notesBox.setFocusableInTouchMode(allowEdit);
+	notesBox.setClickable(allowEdit);
+	notesBox.setTextColor(Color.BLACK);
 	
 	inEditting = allowEdit;
 }
@@ -585,6 +663,12 @@ private void saveDay (int currentDay, int currentWeek){
 				
 		timeTable.addLesson(currentWeek, currentDay, lessonCounter, lessonInfo.info1, lessonInfo.info2, lessonInfo.info3);
 	}
+
+	//Notes field
+	viewKey = "notes";
+	viewId = viewMap.get(viewKey);
+	EditText notesBox = (EditText)findViewById(viewId);
+	timeTable.saveDayNotes(currentWeek, currentDay, notesBox.getText().toString());
 }
 
 	@Override

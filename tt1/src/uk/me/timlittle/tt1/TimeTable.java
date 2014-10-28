@@ -48,6 +48,7 @@ public class TimeTable {
     public static final String KEY_INFO1 = "info1";
     public static final String KEY_INFO2 = "info2";
     public static final String KEY_INFO3 = "info3";
+    public static final int NOTES_PERIOD_KEY = -1; 
 
 
     private static final String DATABASE_CREATE =
@@ -207,10 +208,24 @@ public class TimeTable {
 		if (lessonList.containsKey(key)){
 			infoString = lessonList.get(key).getInfo();
 		} else {
-			infoString = "Lesson " + lessonNo;
+			infoString = "";
 		}
 		
 		return infoString;
+	}
+	
+	//A bit of a kludge, but use a lesson record to hold any notes for the day
+	//But the kludge is hidden so it could be fixed at a later date
+	public String getDayNotes (int weekNo, int dayNo) {
+		String notes = getLessonInfo (weekNo, dayNo, NOTES_PERIOD_KEY);
+		
+		notes = notes.trim();
+		
+		return notes;
+	}
+	
+	public void saveDayNotes(int weekNo, int dayNo, String notes) {
+		addLesson (weekNo, dayNo, NOTES_PERIOD_KEY, notes, "", "");
 	}
 	
 	public Lesson getLesson (int weekNo, int dayNo, int lessonNo) {
